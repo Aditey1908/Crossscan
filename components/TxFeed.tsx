@@ -10,7 +10,7 @@ import { TxCard } from "./TxCard";
 
 export function TxFeed() {
   const { address, isConnected } = useAccount();
-  const { filteredTransactions, setTransactions, transactions, hasActiveFilters, clearFilters, searchQuery } = useFeed();
+  const { filteredTransactions, setTransactions, transactions, clearFilters, searchQuery } = useFeed();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -159,7 +159,7 @@ export function TxFeed() {
               No matching transactions
             </h3>
             <p className="text-gray-400 text-sm mb-6">
-              Your filters didn't match any transactions. Try adjusting your search or chain filter.
+              Your filters didn&apos;t match any transactions. Try adjusting your search or chain filter.
             </p>
             <button
               onClick={clearFilters}
