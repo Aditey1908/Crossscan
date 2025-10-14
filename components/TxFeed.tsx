@@ -1,33 +1,36 @@
 "use client";
 
-import { supportedChains } from "@/lib/chains";
-import { fetchMultiChainTransactions, TransactionPoller } from "@/lib/envioClient";
-import { TxItem } from "@/lib/types";
-import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { TxCard } from "./TxCard";
+import { TxItem } from "@/lib/types";
+import { TransactionPoller, fetchMultiChainTransactions } from "@/lib/envioClient";
+import { useEffect, useState } from "react";
+import { supportedChains } from "@/lib/chains";
+import { useFeed } from "@/lib/feedContext";
 
 export function TxFeed() {
   const { address, isConnected } = useAccount();
-  const [transactions, setTransactions] = useState<TxItem[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { filteredTransactions, setTransactions } = useFeed();
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Initialize feed when address changes
   useEffect(() => {
-    if (!address || !isConnected) {
+    if (!address) {
       setTransactions([]);
+      setError(null);
       return;
     }
 
     let poller: TransactionPoller | null = null;
 
     const initializeFeed = async () => {
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
 
       try {
-        // Fetch initial transactions
-        const chainIds = supportedChains.map((chain) => chain.id);
+        // Fetch initial transactions (last 20 per chain)
+        const chainIds = supportedChains.map((c) => c.id);
         const initialTxs = await fetchMultiChainTransactions(address, chainIds);
         setTransactions(initialTxs);
 
@@ -35,42 +38,37 @@ export function TxFeed() {
         poller = new TransactionPoller(
           address,
           chainIds,
-          (newTxs) => {
+          (newTxs: TxItem[]) => {
             setTransactions((prev) => {
-              // Merge new transactions and remove duplicates
-              const txMap = new Map<string, TxItem>();
-              [...newTxs, ...prev].forEach((tx) => {
-                if (!txMap.has(tx.hash)) {
-                  txMap.set(tx.hash, tx);
-                }
-              });
-              // Convert back to array and sort by timestamp
-              const merged = Array.from(txMap.values());
-              merged.sort((a, b) => b.timestamp - a.timestamp);
+              // Merge new transactions with existing ones
+              const txMap = new Map(prev.map((tx) => [tx.hash, tx]));
+              newTxs.forEach((tx) => txMap.set(tx.hash, tx));
               // Keep only last 100 transactions
-              return merged.slice(0, 100);
+              return Array.from(txMap.values())
+                .sort((a, b) => b.timestamp - a.timestamp)
+                .slice(0, 100);
             });
-          },
-          5000 // Poll every 5 seconds
+          }
         );
 
         poller.start();
       } catch (err) {
-        console.error("Error initializing feed:", err);
-        setError("Failed to load transactions. Please try again.");
+        console.error("Failed to initialize feed:", err);
+        setError("Failed to load transactions");
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     initializeFeed();
 
+    // Cleanup
     return () => {
       if (poller) {
         poller.stop();
       }
     };
-  }, [address, isConnected]);
+  }, [address, setTransactions]);
 
   if (!isConnected) {
     return (
@@ -101,7 +99,7 @@ export function TxFeed() {
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2 text-sm text-gray-400">
-              <div className={`w-2 h-2 rounded-full ${loading ? 'bg-yellow-500 animate-pulse' : 'bg-green-500 animate-pulse'}`} />
+              <div className={`w-2 h-2 rounded-full ${isLoading ? 'bg-yellow-500 animate-pulse' : 'bg-green-500 animate-pulse'}`} />
               <span>Powered by Envio HyperSync</span>
             </div>
           </div>
@@ -118,7 +116,7 @@ export function TxFeed() {
         )}
 
         {/* Loading State */}
-        {loading && transactions.length === 0 && (
+        {isLoading && filteredTransactions.length === 0 && (
           <div className="p-12 text-center">
             <div className="animate-spin text-4xl mb-4">⚡</div>
             <h3 className="text-lg font-semibold text-white mb-2">
@@ -131,7 +129,7 @@ export function TxFeed() {
         )}
 
         {/* Empty State */}
-        {!loading && transactions.length === 0 && !error && (
+        {!isLoading && filteredTransactions.length === 0 && !error && (
           <div className="p-12 text-center">
             <div className="text-5xl mb-4">📡</div>
             <h3 className="text-lg font-semibold text-white mb-2">
@@ -154,7 +152,7 @@ export function TxFeed() {
         )}
 
         {/* Transaction Cards */}
-        {transactions.map((tx) => (
+        {filteredTransactions.map((tx) => (
           <TxCard 
             key={`${tx.hash}-${tx.chainId}`} 
             tx={tx}
@@ -167,10 +165,10 @@ export function TxFeed() {
       </div>
 
       {/* Footer with count */}
-      {transactions.length > 0 && (
+      {filteredTransactions.length > 0 && (
         <div className="border-t border-gray-800 p-4 bg-gray-900/80 text-center">
           <p className="text-sm text-gray-400">
-            Showing {transactions.length} transaction{transactions.length !== 1 ? 's' : ''} • Updates every 5s
+            Showing {filteredTransactions.length} transaction{filteredTransactions.length !== 1 ? 's' : ''} • Updates every 5s
           </p>
         </div>
       )}

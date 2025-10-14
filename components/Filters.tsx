@@ -1,11 +1,22 @@
 "use client";
 
 import { supportedChains } from "@/lib/chains";
-import { useState } from "react";
+import { useFeed } from "@/lib/feedContext";
 
 export function Filters() {
-  const [selectedChain, setSelectedChain] = useState<number | "all">("all");
-  const [searchQuery, setSearchQuery] = useState("");
+  const { 
+    selectedChain, 
+    setSelectedChain, 
+    searchQuery, 
+    setSearchQuery,
+    filteredTransactions,
+    transactions
+  } = useFeed();
+
+  // Calculate stats
+  const totalTxs = transactions.length;
+  const successTxs = transactions.filter(tx => tx.status === "success").length;
+  const successRate = totalTxs > 0 ? Math.round((successTxs / totalTxs) * 100) : 0;
 
   return (
     <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
@@ -61,22 +72,29 @@ export function Filters() {
       </div>
 
       {/* Stats Row */}
-      <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="bg-gray-800/50 rounded-lg p-3">
-          <p className="text-xs text-gray-400">Total Txs</p>
-          <p className="text-xl font-bold text-white">0</p>
+            {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
+          <div className="text-gray-400 text-sm mb-1">Total Txs</div>
+          <div className="text-xl font-bold text-white">{totalTxs}</div>
         </div>
-        <div className="bg-gray-800/50 rounded-lg p-3">
-          <p className="text-xs text-gray-400">Success Rate</p>
-          <p className="text-xl font-bold text-green-400">--%</p>
+        <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
+          <div className="text-gray-400 text-sm mb-1">Success Rate</div>
+          <div className="text-xl font-bold text-green-400">
+            {totalTxs > 0 ? `${successRate}%` : '--'}
+          </div>
         </div>
-        <div className="bg-gray-800/50 rounded-lg p-3">
-          <p className="text-xs text-gray-400">Chains</p>
-          <p className="text-xl font-bold text-blue-400">{supportedChains.length}</p>
+        <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
+          <div className="text-gray-400 text-sm mb-1">Chains</div>
+          <div className="text-xl font-bold text-blue-400">
+            {supportedChains.length}
+          </div>
         </div>
-        <div className="bg-gray-800/50 rounded-lg p-3">
-          <p className="text-xs text-gray-400">Live Feed</p>
-          <p className="text-xl font-bold text-purple-400">Active</p>
+        <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
+          <div className="text-gray-400 text-sm mb-1">Live Feed</div>
+          <div className="text-xl font-bold text-purple-400">
+            {totalTxs > 0 ? 'Active' : 'Waiting'}
+          </div>
         </div>
       </div>
     </div>
