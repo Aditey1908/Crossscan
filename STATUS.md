@@ -1,14 +1,14 @@
 # CrossScan - Build Status
 
 **Last Updated:** October 14, 2025  
-**Phase:** 1 - Foundation ✅ COMPLETE
+**Phase:** 2 - Envio Integration ✅ COMPLETE  
+**Live URL:** https://crossscan.vercel.app/
 
 ---
 
 ## 📊 Current Status
 
-### ✅ Completed
-
+### ✅ Phase 1: Foundation - COMPLETE
 - [x] Next.js 15 project scaffolded
 - [x] TypeScript configuration
 - [x] Tailwind CSS setup
@@ -18,22 +18,33 @@
 - [x] 3-pane dashboard layout
 - [x] Navbar with wallet connect
 - [x] Filters component with chain selection
-- [x] TxFeed component (placeholder)
-- [x] ExplorerPane component (placeholder)
 - [x] Demo page for Avail bridge
 - [x] Utility functions (formatAddress, formatHash, etc.)
 - [x] Chain configurations
 - [x] Initial documentation (SCOPE.md, AI_ATTRIBUTION.md)
 - [x] Git repository initialized
-- [x] First commit made
+- [x] Deployed to Vercel
+
+### ✅ Phase 2: Envio Integration - COMPLETE
+- [x] HyperSync client created (`lib/envioClient.ts`)
+- [x] TypeScript types defined (`lib/types.ts`)
+- [x] Multi-chain transaction fetching (4 testnets)
+- [x] Real-time polling with TransactionPoller class
+- [x] ERC20 token transfer detection from logs
+- [x] Transaction normalization and deduplication
+- [x] TxCard component with full details
+- [x] TxFeed component with real data
+- [x] Loading and error states
+- [x] Data model documentation (DATA_MODEL.md)
+- [x] Committed and pushed to GitHub
+- [x] Live on Vercel with Envio integration
 
 ### 🚧 In Progress
-
-- [ ] None currently
+- [ ] None currently - ready for Phase 3!
 
 ### 📋 Next Steps
 
-#### Phase 2: Envio Integration (Day 1-2)
+#### Phase 3: Blockscout Integration (Next)
 
 1. **Set up Envio HyperSync client**
 
