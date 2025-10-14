@@ -93,7 +93,7 @@ export function TxCard({ tx, onClick }: TxCardProps) {
             <span className="text-gray-400">To:</span>
             {tx.to ? (
               <button
-                onClick={(e) => handleCopy(e, tx.to)}
+                onClick={(e) => handleCopy(e, tx.to!)}
                 className="text-blue-400 hover:text-blue-300 font-mono"
               >
                 {formatAddress(tx.to)}
@@ -104,7 +104,7 @@ export function TxCard({ tx, onClick }: TxCardProps) {
           </div>
 
           {/* Value */}
-          {tx.valueNative && BigInt(tx.valueNative) > 0n && (
+          {tx.valueNative && BigInt(tx.valueNative) > BigInt(0) && (
             <div className="mt-2 text-sm">
               <span className="text-gray-400">Value:</span>
               <span className="ml-2 text-white font-semibold">
