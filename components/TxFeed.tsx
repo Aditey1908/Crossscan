@@ -10,7 +10,7 @@ import { TxCard } from "./TxCard";
 
 export function TxFeed() {
   const { address, isConnected } = useAccount();
-  const { filteredTransactions, setTransactions } = useFeed();
+  const { filteredTransactions, setTransactions, transactions, hasActiveFilters, clearFilters, searchQuery } = useFeed();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -128,8 +128,8 @@ export function TxFeed() {
           </div>
         )}
 
-        {/* Empty State */}
-        {!isLoading && filteredTransactions.length === 0 && !error && (
+        {/* Empty State - No transactions at all */}
+        {!isLoading && transactions.length === 0 && !error && (
           <div className="p-12 text-center">
             <div className="text-5xl mb-4">📡</div>
             <h3 className="text-lg font-semibold text-white mb-2">
@@ -151,11 +151,31 @@ export function TxFeed() {
           </div>
         )}
 
+        {/* Empty State - Filters active but no results */}
+        {!isLoading && transactions.length > 0 && filteredTransactions.length === 0 && !error && (
+          <div className="p-12 text-center">
+            <div className="text-5xl mb-4">🔍</div>
+            <h3 className="text-lg font-semibold text-white mb-2">
+              No matching transactions
+            </h3>
+            <p className="text-gray-400 text-sm mb-6">
+              Your filters didn't match any transactions. Try adjusting your search or chain filter.
+            </p>
+            <button
+              onClick={clearFilters}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors font-medium"
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
+
         {/* Transaction Cards */}
         {filteredTransactions.map((tx) => (
           <TxCard 
             key={`${tx.hash}-${tx.chainId}`} 
             tx={tx}
+            searchQuery={searchQuery}
             onClick={() => {
               // TODO: Open explorer pane with tx details
               console.log("Selected tx:", tx);

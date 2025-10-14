@@ -11,6 +11,8 @@ interface FeedContextType {
   transactions: TxItem[];
   setTransactions: React.Dispatch<React.SetStateAction<TxItem[]>>;
   filteredTransactions: TxItem[];
+  hasActiveFilters: boolean;
+  clearFilters: () => void;
 }
 
 const FeedContext = createContext<FeedContextType | undefined>(undefined);
@@ -35,6 +37,15 @@ export function FeedProvider({ children }: { children: ReactNode }) {
     return chainMatch && searchMatch;
   });
 
+  // Check if any filters are active
+  const hasActiveFilters = selectedChain !== "all" || searchQuery.trim() !== "";
+
+  // Clear all filters
+  const clearFilters = () => {
+    setSelectedChain("all");
+    setSearchQuery("");
+  };
+
   return (
     <FeedContext.Provider
       value={{
@@ -45,6 +56,8 @@ export function FeedProvider({ children }: { children: ReactNode }) {
         transactions,
         setTransactions,
         filteredTransactions,
+        hasActiveFilters,
+        clearFilters,
       }}
     >
       {children}

@@ -10,9 +10,10 @@ import { useState } from "react";
 interface TxCardProps {
   tx: TxItem;
   onClick?: () => void;
+  searchQuery?: string;
 }
 
-export function TxCard({ tx, onClick }: TxCardProps) {
+export function TxCard({ tx, onClick, searchQuery = "" }: TxCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async (e: React.MouseEvent, text: string) => {
@@ -21,6 +22,13 @@ export function TxCard({ tx, onClick }: TxCardProps) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  // Check if this transaction matches the search query
+  const isSearchMatch = searchQuery && (
+    tx.hash.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    tx.from.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    tx.to?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const timeAgo = formatDistance(new Date(tx.timestamp * 1000), new Date(), {
     addSuffix: true,
@@ -32,7 +40,11 @@ export function TxCard({ tx, onClick }: TxCardProps) {
   return (
     <div
       onClick={onClick}
-      className="p-4 hover:bg-gray-800/50 transition-all cursor-pointer border-l-2 border-transparent hover:border-blue-500"
+      className={`p-4 hover:bg-gray-800/50 transition-all cursor-pointer border-l-2 ${
+        isSearchMatch 
+          ? 'border-yellow-500 bg-yellow-500/5' 
+          : 'border-transparent'
+      } hover:border-blue-500`}
     >
       <div className="flex items-start justify-between gap-4">
         {/* Left: Main Info */}

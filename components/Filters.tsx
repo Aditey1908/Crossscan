@@ -10,11 +10,14 @@ export function Filters() {
     searchQuery, 
     setSearchQuery,
     filteredTransactions,
-    transactions
+    transactions,
+    hasActiveFilters,
+    clearFilters
   } = useFeed();
 
   // Calculate stats
   const totalTxs = transactions.length;
+  const filteredCount = filteredTransactions.length;
   const successTxs = transactions.filter(tx => tx.status === "success").length;
   const successRate = totalTxs > 0 ? Math.round((successTxs / totalTxs) * 100) : 0;
 
@@ -51,14 +54,38 @@ export function Filters() {
             <label className="block text-sm font-medium text-gray-400 mb-2">
               Search
             </label>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Address or tx hash..."
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Address or tx hash..."
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 pr-10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  title="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
           </div>
+
+          {/* Clear Filters Button */}
+          {hasActiveFilters && (
+            <div className="flex items-end">
+              <button
+                onClick={clearFilters}
+                className="bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white border border-gray-700 px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+                title="Clear all filters"
+              >
+                🔄 Reset
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Right: Bridge Action */}
@@ -71,9 +98,19 @@ export function Filters() {
         </div>
       </div>
 
+      {/* Filter Status */}
+      {hasActiveFilters && totalTxs > 0 && (
+        <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+          <p className="text-sm text-blue-300">
+            🔍 Showing <span className="font-bold">{filteredCount}</span> of <span className="font-bold">{totalTxs}</span> transaction{totalTxs !== 1 ? 's' : ''}
+            {selectedChain !== "all" && " • Filtered by chain"}
+            {searchQuery && " • Search active"}
+          </p>
+        </div>
+      )}
+
       {/* Stats Row */}
-            {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
         <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
           <div className="text-gray-400 text-sm mb-1">Total Txs</div>
           <div className="text-xl font-bold text-white">{totalTxs}</div>

@@ -1,7 +1,7 @@
 # CrossScan - Build Status
 
 **Last Updated:** October 14, 2025  
-**Phase:** 2 - Envio Integration ✅ COMPLETE  
+**Phase:** 2.5 - Filter & Polish Features ✅ COMPLETE  
 **Live URL:** https://crossscan.vercel.app/
 
 ---
@@ -41,9 +41,23 @@
 - [x] Committed and pushed to GitHub
 - [x] Live on Vercel with Envio integration
 
+### ✅ Phase 2.5: Filter & Polish Features - COMPLETE
+
+- [x] React Context for filter state management
+- [x] Chain filter dropdown (working)
+- [x] Search filter by hash/address (working)
+- [x] Combined filtering (chain + search)
+- [x] Real-time stats display
+- [x] Clear search ✕ button
+- [x] Reset filters button
+- [x] Filter status indicator (X of Y transactions)
+- [x] Improved empty states (no data vs no matches)
+- [x] Search match highlighting (yellow border)
+- [x] Documentation (FILTERS_COMPLETE.md, POLISH_FEATURES.md)
+
 ### 🚧 In Progress
 
-- [ ] None currently - ready for Phase 3!
+- [ ] Waiting for Blockscout credits approval
 
 ### 📋 Next Steps
 
