@@ -27,6 +27,7 @@ CrossScan solves the multichain visibility problem by providing:
 ## ✨ Features
 
 ### 🔄 Envio Integration (HyperSync)
+
 - ✅ Real-time transaction feed with 3-5s polling
 - ✅ Multi-chain support (Sepolia, Amoy, Base Sepolia, etc.)
 - ✅ Token transfer detection (ERC20 + native)
@@ -34,12 +35,14 @@ CrossScan solves the multichain visibility problem by providing:
 - ✅ Pending/success/failed tx status
 
 ### 🔎 Blockscout Integration (SDK + Autoscout)
+
 - ✅ Self-hosted Autoscout explorer instance
 - ✅ Embedded SDK widgets for tx details
 - ✅ Deep linking from every transaction
 - ✅ Decoded logs and token metadata
 
 ### 🌉 Avail Integration (Nexus SDK)
+
 - ✅ Simple "Bridge Test Token" action
 - ✅ Crosschain intent with guardrails
 - ✅ Transaction hash verification
@@ -62,6 +65,7 @@ CrossScan solves the multichain visibility problem by providing:
 ## 📦 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or yarn
 - MetaMask or compatible wallet
@@ -145,28 +149,33 @@ crossscan/
 ## 🎬 Development Roadmap
 
 ### ✅ Phase 1: Foundation (COMPLETE)
+
 - [x] Next.js scaffold with TypeScript
 - [x] wagmi + RainbowKit setup
 - [x] 3-pane dashboard layout
 - [x] Initial deployment ready
 
 ### 🚧 Phase 2: Envio Integration (IN PROGRESS)
+
 - [ ] HyperSync client
 - [ ] Transaction feed with polling
 - [ ] Chain/token filters
 - [ ] Data model documentation
 
 ### 📋 Phase 3: Blockscout Integration (TODO)
+
 - [ ] Launch Autoscout instance
 - [ ] Embed SDK in ExplorerPane
 - [ ] Deep linking implementation
 
 ### 📋 Phase 4: Avail Integration (TODO)
+
 - [ ] Install Nexus SDK
 - [ ] Bridge & Execute demo
 - [ ] AVAIL_FEEDBACK.md
 
 ### 📋 Phase 5: Polish & Docs (TODO)
+
 - [ ] UX hardening
 - [ ] README completion
 - [ ] Demo video
@@ -177,6 +186,7 @@ crossscan/
 ## 🏆 Partner Prize Deliverables
 
 ### Envio
+
 - ✅ HyperSync/HyperIndex integration
 - ✅ Real-time transaction feed
 - ✅ Data model documentation
@@ -184,12 +194,14 @@ crossscan/
 - ✅ "Powered by Envio" attribution
 
 ### Blockscout
+
 - ✅ Self-launched Autoscout instance
 - ✅ SDK embedded in ExplorerPane
 - ✅ Deep links from transaction rows
 - ✅ Autoscout URL in README
 
 ### Avail
+
 - ✅ Nexus SDK installed and called
 - ✅ "Bridge & Execute" demo
 - ✅ AVAIL_FEEDBACK.md with screenshots

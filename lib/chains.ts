@@ -1,5 +1,5 @@
 import { http } from "wagmi";
-import { mainnet, sepolia, polygonAmoy, baseSepolia, arbitrumSepolia, optimismSepolia } from "wagmi/chains";
+import { arbitrumSepolia, baseSepolia, optimismSepolia, polygonAmoy, sepolia } from "wagmi/chains";
 
 export const supportedChains = [
   sepolia,

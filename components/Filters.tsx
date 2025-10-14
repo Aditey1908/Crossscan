@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { supportedChains } from "@/lib/chains";
+import { useState } from "react";
 
 export function Filters() {
   const [selectedChain, setSelectedChain] = useState<number | "all">("all");

@@ -1,5 +1,5 @@
-import { http, createConfig } from "wagmi";
-import { sepolia, polygonAmoy, baseSepolia, arbitrumSepolia, optimismSepolia } from "wagmi/chains";
+import { createConfig, http } from "wagmi";
+import { arbitrumSepolia, baseSepolia, optimismSepolia, polygonAmoy, sepolia } from "wagmi/chains";
 import { injected, walletConnect } from "wagmi/connectors";
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";

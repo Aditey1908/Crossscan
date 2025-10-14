@@ -1,7 +1,7 @@
-import { Navbar } from "@/components/Navbar";
-import { TxFeed } from "@/components/TxFeed";
 import { ExplorerPane } from "@/components/ExplorerPane";
 import { Filters } from "@/components/Filters";
+import { Navbar } from "@/components/Navbar";
+import { TxFeed } from "@/components/TxFeed";
 
 export default function Home() {
   return (

@@ -1,19 +1,22 @@
-# 🎉 PHASE 1 COMPLETE! 
+# 🎉 PHASE 1 COMPLETE!
 
 ## What We Just Built (30 minutes)
 
 ### ✅ **Full Next.js 15 Foundation**
+
 - TypeScript + Tailwind CSS configured
 - Dark mode enabled by default
 - Production-ready project structure
 
 ### ✅ **Web3 Integration Complete**
+
 - wagmi v2 configured with 5 testnets
 - RainbowKit wallet connection UI
 - React Query for state management
 - Proper SSR support
 
 ### ✅ **UI Components Ready**
+
 - `Navbar` - Logo, nav links, wallet connect button
 - `Filters` - Chain selector, search, bridge button, stats
 - `TxFeed` - Empty state with Envio attribution
@@ -21,6 +24,7 @@
 - `Demo Page` - Avail bridge demo placeholder
 
 ### ✅ **Developer Experience**
+
 - Utility functions for formatting addresses/hashes
 - Chain configurations with icons and colors
 - Comprehensive documentation structure
@@ -49,10 +53,12 @@ Open http://localhost:3000 and you'll see:
 ## 🚀 **It's Live!**
 
 The dev server is running at:
+
 - **Local:** http://localhost:3000
 - **Network:** http://192.168.0.104:3000
 
 Try it:
+
 1. Click "Connect" in the navbar
 2. You'll see the RainbowKit modal (needs valid WalletConnect ID)
 3. Navigate to "Bridge Demo" page
@@ -96,6 +102,7 @@ Try it:
 ## 🎯 **Next Actions (Your Choice)**
 
 ### Option A: Get Live on Vercel (15 min)
+
 ```bash
 # 1. Create GitHub repo
 # 2. Push code
@@ -108,12 +115,14 @@ git push -u origin master
 ```
 
 ### Option B: Start Envio Integration (now)
+
 1. Get WalletConnect Project ID (cloud.walletconnect.com)
 2. Research Envio HyperSync docs
 3. Create `lib/envioClient.ts`
 4. Start polling implementation
 
 ### Option C: Test Everything First
+
 1. Get WalletConnect ID and update `.env.local`
 2. Get testnet funds (Sepolia, Amoy)
 3. Connect wallet and verify UI
@@ -127,17 +136,20 @@ git push -u origin master
 **Do these in parallel:**
 
 1. **RIGHT NOW (5 min):** Get WalletConnect Project ID
+
    - https://cloud.walletconnect.com
    - Create account → New project → Copy ID
    - Paste in `.env.local`
    - Restart server
 
 2. **THEN (10 min):** Push to GitHub + Deploy to Vercel
+
    - You'll have a live URL immediately
    - Judges can see progress
    - Easy to share
 
 3. **THEN (30 min):** Research Envio
+
    - Read HyperSync docs
    - Find example queries
    - Plan transaction data model
@@ -156,7 +168,7 @@ git push -u origin master
 ✅ **Actually Works** - No placeholder code  
 ✅ **Scalable** - Easy to add features  
 ✅ **Well Documented** - Future you will thank you  
-✅ **Judge Ready** - Clean, clear, impressive  
+✅ **Judge Ready** - Clean, clear, impressive
 
 ---
 
@@ -198,6 +210,7 @@ Day 3:
 The foundation is **SOLID**. Everything works. You're ahead of schedule.
 
 **What to do next:**
+
 1. Get WalletConnect Project ID (5 min)
 2. Deploy to Vercel (10 min)
 3. Take a screenshot of the live site

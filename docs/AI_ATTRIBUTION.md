@@ -2,7 +2,7 @@
 
 **Project:** CrossScan  
 **Date:** October 14, 2025  
-**Developer:** [Your Name]  
+**Developer:** [Your Name]
 
 ---
 
@@ -15,12 +15,14 @@ This project was built with assistance from **GitHub Copilot** and **Claude AI**
 ## 🛠️ AI Tools Used
 
 ### GitHub Copilot
+
 - **Code completion** for boilerplate components
 - **Function suggestions** for utility helpers
 - **TypeScript type inference** improvements
 - **Documentation generation** for complex functions
 
 ### Claude AI (via GitHub Copilot Chat)
+
 - **Architecture planning** and project scaffolding
 - **Integration guidance** for Envio, Blockscout, and Avail SDKs
 - **Code review** and best practices suggestions
@@ -31,6 +33,7 @@ This project was built with assistance from **GitHub Copilot** and **Claude AI**
 ## 📊 Human vs AI Contribution Breakdown
 
 ### Human (Developer) Contributions
+
 - ✅ Overall architecture and design decisions
 - ✅ Partner prize requirements analysis
 - ✅ SDK configuration and API key management
@@ -41,6 +44,7 @@ This project was built with assistance from **GitHub Copilot** and **Claude AI**
 - ✅ Final integration and deployment
 
 ### AI Contributions
+
 - 🤖 Boilerplate code generation (layouts, components)
 - 🤖 TypeScript type definitions
 - 🤖 Utility function implementations
@@ -53,6 +57,7 @@ This project was built with assistance from **GitHub Copilot** and **Claude AI**
 ## 🎯 Critical Human Decisions
 
 The following were **100% human-driven**:
+
 1. Partner selection (Envio, Blockscout, Avail)
 2. Problem statement definition
 3. Data model design
@@ -67,6 +72,7 @@ The following were **100% human-driven**:
 ## 📝 Code Ownership
 
 All code in this repository was:
+
 - **Reviewed** by the human developer
 - **Tested** by the human developer
 - **Modified** as needed for correctness and efficiency
@@ -79,7 +85,9 @@ AI tools accelerated development but **did not replace human judgment**.
 ## 🔍 Specific AI Contributions
 
 ### Component Generation
+
 AI helped scaffold the following components with basic structure:
+
 - `Navbar.tsx` - Layout and RainbowKit integration
 - `Filters.tsx` - Filter UI boilerplate
 - `TxFeed.tsx` - Empty state design
@@ -88,7 +96,9 @@ AI helped scaffold the following components with basic structure:
 **All logic, state management, and API integration was human-implemented.**
 
 ### Utility Functions
+
 AI suggested implementations for:
+
 - `formatAddress()` - Address truncation
 - `formatHash()` - Hash truncation
 - `formatEther()` - ETH formatting
@@ -96,7 +106,9 @@ AI suggested implementations for:
 **Adapted and verified by human developer.**
 
 ### Documentation
+
 AI helped with:
+
 - README structure and formatting
 - Markdown table generation
 - Documentation templates
