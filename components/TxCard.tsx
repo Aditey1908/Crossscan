@@ -1,10 +1,10 @@
 "use client";
 
-import { formatDistance } from "date-fns";
-import { Copy, ExternalLink, ArrowRight } from "lucide-react";
-import { TxItem } from "@/lib/types";
-import { formatAddress, formatHash, formatEther, getChainName, copyToClipboard } from "@/lib/utils";
 import { chainColors, chainIcons } from "@/lib/chains";
+import { TxItem } from "@/lib/types";
+import { copyToClipboard, formatAddress, formatEther, formatHash, getChainName } from "@/lib/utils";
+import { formatDistance } from "date-fns";
+import { ArrowRight, Copy } from "lucide-react";
 import { useState } from "react";
 
 interface TxCardProps {

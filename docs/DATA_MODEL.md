@@ -1,7 +1,7 @@
 # CrossScan - Data Model Documentation
 
 **Version:** 1.0  
-**Last Updated:** October 14, 2025  
+**Last Updated:** October 14, 2025
 
 ---
 
@@ -20,31 +20,31 @@ The primary data structure displayed in the transaction feed:
 ```typescript
 interface TxItem {
   // Core identification
-  hash: string;              // Transaction hash (0x...)
-  chainId: number;           // EVM chain ID (e.g., 11155111 for Sepolia)
-  blockNumber: number;       // Block number
-  timestamp: number;         // Unix timestamp (seconds)
-  
+  hash: string; // Transaction hash (0x...)
+  chainId: number; // EVM chain ID (e.g., 11155111 for Sepolia)
+  blockNumber: number; // Block number
+  timestamp: number; // Unix timestamp (seconds)
+
   // Addresses
-  from: string;              // Sender address
-  to: string | null;         // Recipient (null for contract creation)
-  
+  from: string; // Sender address
+  to: string | null; // Recipient (null for contract creation)
+
   // Value
-  valueNative?: string;      // Native token value in wei
-  
+  valueNative?: string; // Native token value in wei
+
   // Status
   status: "pending" | "success" | "failed";
-  
+
   // Gas metrics
-  gasUsed?: string;          // Gas consumed
-  gasPrice?: string;         // Gas price in wei
-  
+  gasUsed?: string; // Gas consumed
+  gasPrice?: string; // Gas price in wei
+
   // Token transfers
   tokenTransfers?: TokenTransfer[];
-  
+
   // Metadata
-  methodName?: string;       // Function name (if decoded)
-  input?: string;            // Call data (hex)
+  methodName?: string; // Function name (if decoded)
+  input?: string; // Call data (hex)
 }
 ```
 
@@ -54,13 +54,13 @@ Extracted from transaction logs:
 
 ```typescript
 interface TokenTransfer {
-  token: string;             // Token contract address
-  tokenSymbol?: string;      // e.g., "USDC"
-  tokenName?: string;        // e.g., "USD Coin"
-  from: string;              // Sender
-  to: string;                // Recipient
-  amount: string;            // Amount in smallest unit (wei-equivalent)
-  decimals?: number;         // Token decimals (default: 18)
+  token: string; // Token contract address
+  tokenSymbol?: string; // e.g., "USDC"
+  tokenName?: string; // e.g., "USD Coin"
+  from: string; // Sender
+  to: string; // Recipient
+  amount: string; // Amount in smallest unit (wei-equivalent)
+  decimals?: number; // Token decimals (default: 18)
 }
 ```
 
@@ -99,16 +99,19 @@ Request structure sent to Envio:
 ### 2. Transformation Logic
 
 **Status Determination:**
+
 - `status === 0` → `"failed"`
 - `status === 1 | undefined` → `"success"`
 - In mempool → `"pending"` (not yet implemented)
 
 **Token Transfers:**
+
 - Detect ERC20 Transfer events: `topics[0] === TRANSFER_SIGNATURE`
 - Extract `from` and `to` from `topics[1]` and `topics[2]`
 - Extract `amount` from log `data`
 
 **Value Formatting:**
+
 - Native value stored as string in wei
 - Displayed as ETH with `formatEther(value)`
 
@@ -117,15 +120,18 @@ Request structure sent to Envio:
 ## ⚠️ Edge Cases
 
 ### 1. Contract Creation
+
 ```typescript
 {
   to: null,  // No recipient
   input: "0x60806040..."  // Contract bytecode
 }
 ```
+
 **Display:** Show "Contract Creation" instead of recipient address.
 
 ### 2. Failed Transactions
+
 ```typescript
 {
   status: "failed",
@@ -133,33 +139,41 @@ Request structure sent to Envio:
   valueNative: "0"   // Value not transferred
 }
 ```
+
 **Display:** Red badge with ✗ icon. Still show gas cost.
 
 ### 3. Multiple Token Transfers
+
 Single transaction can emit multiple Transfer events:
+
 ```typescript
 tokenTransfers: [
-  { token: "0xUSDC...", amount: "1000000" },  // 1 USDC
-  { token: "0xDAI...", amount: "1000..." }    // 1 DAI
-]
+  { token: "0xUSDC...", amount: "1000000" }, // 1 USDC
+  { token: "0xDAI...", amount: "1000..." }, // 1 DAI
+];
 ```
+
 **Display:** Show count: "2 token transfer(s)".
 
 ### 4. Internal Transactions
+
 HyperSync returns only top-level transactions. Internal calls are not tracked separately.
 
 **Limitation:** If a contract calls another contract that transfers tokens, only the initial transaction hash is visible.
 
 ### 5. Zero-Value Transactions
+
 ```typescript
 {
   valueNative: "0",
   tokenTransfers: []  // e.g., contract interaction
 }
 ```
+
 **Display:** Don't show value row. Focus on method/input.
 
 ### 6. Pending Transactions
+
 Currently not implemented. HyperSync only returns mined transactions.
 
 **Future:** Could poll mempool via separate RPC.
@@ -170,14 +184,15 @@ Currently not implemented. HyperSync only returns mined transactions.
 
 ### Supported Chains
 
-| Chain | Chain ID | HyperSync Endpoint |
-|-------|----------|-------------------|
-| Sepolia | 11155111 | https://sepolia.hypersync.xyz |
-| Base Sepolia | 84532 | https://base-sepolia.hypersync.xyz |
+| Chain            | Chain ID | HyperSync Endpoint                     |
+| ---------------- | -------- | -------------------------------------- |
+| Sepolia          | 11155111 | https://sepolia.hypersync.xyz          |
+| Base Sepolia     | 84532    | https://base-sepolia.hypersync.xyz     |
 | Optimism Sepolia | 11155420 | https://optimism-sepolia.hypersync.xyz |
-| Arbitrum Sepolia | 421614 | https://arbitrum-sepolia.hypersync.xyz |
+| Arbitrum Sepolia | 421614   | https://arbitrum-sepolia.hypersync.xyz |
 
 ### Query Limits
+
 - **Max blocks per query:** 10,000 (configurable)
 - **Max transactions per query:** 1,000
 - **Recommended poll interval:** 5 seconds
@@ -188,6 +203,7 @@ Currently not implemented. HyperSync only returns mined transactions.
 ## 📈 Performance Considerations
 
 ### Polling Strategy
+
 ```typescript
 TransactionPoller:
 - Initial fetch: Last 20 txs per chain
@@ -197,7 +213,9 @@ TransactionPoller:
 ```
 
 ### Deduplication
+
 Transactions are deduplicated by hash in React state:
+
 ```typescript
 const txMap = new Map<string, TxItem>();
 [...newTxs, ...prev].forEach((tx) => {
@@ -208,6 +226,7 @@ const txMap = new Map<string, TxItem>();
 ```
 
 ### Caching
+
 - Last 100 transactions kept in memory
 - Older transactions are dropped
 - No persistent storage (resets on refresh)
@@ -217,7 +236,9 @@ const txMap = new Map<string, TxItem>();
 ## 🛠️ Data Validation
 
 ### Required Fields
+
 All `TxItem` objects must have:
+
 - `hash` (non-empty string)
 - `chainId` (valid number)
 - `from` (valid address)
@@ -226,6 +247,7 @@ All `TxItem` objects must have:
 - `status` (one of: pending, success, failed)
 
 ### Optional Fields
+
 - `to` can be `null` for contract creation
 - `valueNative` can be missing or "0"
 - `tokenTransfers` can be empty array
@@ -236,6 +258,7 @@ All `TxItem` objects must have:
 ## 🔬 Example Data
 
 ### Simple ETH Transfer
+
 ```json
 {
   "hash": "0xabc123...",
@@ -252,6 +275,7 @@ All `TxItem` objects must have:
 ```
 
 ### Token Transfer
+
 ```json
 {
   "hash": "0xdef456...",
@@ -278,6 +302,7 @@ All `TxItem` objects must have:
 ## 🚀 Future Enhancements
 
 ### Planned Features
+
 1. **Token Metadata:** Fetch token symbols/names from chain
 2. **USD Values:** Convert amounts to USD using price feeds
 3. **Method Decoding:** Decode function calls (4byte.directory)
@@ -285,7 +310,9 @@ All `TxItem` objects must have:
 5. **NFT Transfers:** Detect ERC721/ERC1155 transfers
 
 ### Data Schema Changes
+
 When adding features, maintain backward compatibility:
+
 - Add new optional fields
 - Don't remove existing fields
 - Version the data model (v1, v2, etc.)

@@ -9,6 +9,7 @@
 ## 📊 Current Status
 
 ### ✅ Phase 1: Foundation - COMPLETE
+
 - [x] Next.js 15 project scaffolded
 - [x] TypeScript configuration
 - [x] Tailwind CSS setup
@@ -26,6 +27,7 @@
 - [x] Deployed to Vercel
 
 ### ✅ Phase 2: Envio Integration - COMPLETE
+
 - [x] HyperSync client created (`lib/envioClient.ts`)
 - [x] TypeScript types defined (`lib/types.ts`)
 - [x] Multi-chain transaction fetching (4 testnets)
@@ -40,6 +42,7 @@
 - [x] Live on Vercel with Envio integration
 
 ### 🚧 In Progress
+
 - [ ] None currently - ready for Phase 3!
 
 ### 📋 Next Steps

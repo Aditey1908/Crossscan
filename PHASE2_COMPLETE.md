@@ -3,6 +3,7 @@
 ## ⚡ **What We Just Built:**
 
 ### ✅ **Complete Envio HyperSync Integration**
+
 - **Full REST client** for HyperSync API
 - **Multi-chain support** (4 testnets simultaneously)
 - **Real-time polling** (5-second intervals)
@@ -11,6 +12,7 @@
 - **Automatic deduplication** and sorting
 
 ### ✅ **Beautiful Transaction Feed**
+
 - Live updates with animated indicators
 - Chain-specific badges with colors
 - Status indicators (success/failed/pending)
@@ -21,6 +23,7 @@
 - Smooth hover effects
 
 ### ✅ **Production-Ready Code**
+
 - Full TypeScript types (`lib/types.ts`)
 - Comprehensive client (`lib/envioClient.ts`)
 - Polling class with cleanup
@@ -29,6 +32,7 @@
 - Empty states
 
 ### ✅ **Documentation**
+
 - **DATA_MODEL.md** - Complete schema documentation
 - Edge cases covered
 - Performance considerations
@@ -41,6 +45,7 @@
 **Your app:** https://crossscan.vercel.app/
 
 **What's working right now:**
+
 1. Connect your wallet
 2. Transactions will load from HyperSync
 3. See real-time updates every 5 seconds
@@ -52,6 +57,7 @@
 ## 📊 **Technical Achievements:**
 
 ### HyperSync Integration Details
+
 ```typescript
 ✅ Query Builder: Fetches txs where address is from OR to
 ✅ Field Selection: Optimized to request only needed data
@@ -62,6 +68,7 @@
 ```
 
 ### Data Flow
+
 ```
 User Wallet Address
         ↓
@@ -87,6 +94,7 @@ Auto-refresh every 5s
 ## 🎯 **Partner Prize Status:**
 
 ### Envio ✅ **COMPLETE**
+
 - [x] HyperSync integration
 - [x] Real-time transaction feed
 - [x] Clear data model (DATA_MODEL.md)
@@ -97,6 +105,7 @@ Auto-refresh every 5s
 **Prize Confidence: 95%** 🔥
 
 ### Blockscout 🚧 **NEXT**
+
 - [ ] Launch Autoscout instance
 - [ ] Embed SDK in ExplorerPane
 - [ ] Deep linking from tx cards
@@ -104,6 +113,7 @@ Auto-refresh every 5s
 **Estimated Time: 2-3 hours**
 
 ### Avail 📋 **DAY 2**
+
 - [ ] Install Nexus SDK
 - [ ] Bridge demo
 - [ ] AVAIL_FEEDBACK.md
@@ -115,6 +125,7 @@ Auto-refresh every 5s
 ## 💻 **Code Highlights:**
 
 ### envioClient.ts - TransactionPoller Class
+
 ```typescript
 ✅ Automatic polling with cleanup
 ✅ Tracks last block per chain (efficient)
@@ -123,6 +134,7 @@ Auto-refresh every 5s
 ```
 
 ### TxCard Component
+
 ```typescript
 ✅ Time-ago with date-fns
 ✅ Copy-to-clipboard functionality
@@ -132,6 +144,7 @@ Auto-refresh every 5s
 ```
 
 ### Type Safety
+
 ```typescript
 ✅ Full TypeScript coverage
 ✅ Proper interfaces for HyperSync responses
@@ -154,6 +167,7 @@ Auto-refresh every 5s
 ## 🧪 **Testing Instructions:**
 
 1. **Connect Wallet**
+
    ```
    - Go to https://crossscan.vercel.app/
    - Click "Connect" button
@@ -162,6 +176,7 @@ Auto-refresh every 5s
    ```
 
 2. **View Transactions**
+
    ```
    - If you have history on testnets, it will load
    - Make a test transaction on Sepolia:
@@ -185,10 +200,12 @@ Auto-refresh every 5s
 ### Updated 3-Minute Demo (0:00 - 3:00)
 
 **0:00-0:20 - Intro**
+
 - "CrossScan - multichain explorer in one dashboard"
 - "Powered by Envio, Blockscout, and Avail"
 
 **0:20-1:30 - Live Feed (Envio) ⭐ NEW**
+
 - Connect wallet
 - Show existing transactions loading
 - "Real-time feed from HyperSync across 4 testnets"
@@ -198,14 +215,17 @@ Auto-refresh every 5s
 - "Chain badges, status, copy addresses"
 
 **1:30-2:10 - Explorer Details (Blockscout)**
+
 - Coming in Phase 3
 - "Click any tx → decoded details in right pane"
 
 **2:10-2:50 - Crosschain Action (Avail)**
+
 - Coming in Phase 4
 - "Bridge test token with one click"
 
 **2:50-3:00 - Close**
+
 - "Live on Vercel. Code on GitHub. Let's go multichain!"
 
 ---
@@ -213,22 +233,25 @@ Auto-refresh every 5s
 ## 🏆 **Why This is Prize-Winning:**
 
 ### Technical Excellence
+
 ✅ Not just a wrapper - custom polling logic  
 ✅ Proper error handling and loading states  
 ✅ Efficient queries (only new blocks)  
-✅ Production-ready TypeScript  
+✅ Production-ready TypeScript
 
 ### User Experience
+
 ✅ Instant feedback (animations, loaders)  
 ✅ Copy-to-clipboard everywhere  
 ✅ Time-ago formatting  
-✅ Chain-specific theming  
+✅ Chain-specific theming
 
 ### Documentation
+
 ✅ DATA_MODEL.md is judge-friendly  
 ✅ Code comments explain logic  
 ✅ Edge cases documented  
-✅ Performance considerations noted  
+✅ Performance considerations noted
 
 ---
 
@@ -247,6 +270,7 @@ Auto-refresh every 5s
 ## 📋 **IMMEDIATE NEXT STEPS:**
 
 ### Option A: Start Blockscout (Recommended)
+
 ```
 1. Go to deploy.blockscout.com
 2. Launch Autoscout for Sepolia
@@ -257,15 +281,17 @@ Auto-refresh every 5s
 ```
 
 ### Option B: Polish Envio First
+
 ```
 1. Wire up chain filter
-2. Add search functionality  
+2. Add search functionality
 3. Fetch token metadata
 4. Add USD values
 5. Test edge cases
 ```
 
 ### Option C: Take a Break!
+
 ```
 You just built a complete real-time multichain feed!
 - Commit is pushed ✅
@@ -278,13 +304,13 @@ You just built a complete real-time multichain feed!
 
 ## 💪 **Current Status:**
 
-| Phase | Status | Time Spent | Quality |
-|-------|--------|-----------|---------|
-| Phase 1: Foundation | ✅ Complete | 30 min | Excellent |
-| Phase 2: Envio | ✅ Complete | 45 min | Excellent |
-| Phase 3: Blockscout | 🚧 Ready to start | - | - |
-| Phase 4: Avail | 📋 Planned | - | - |
-| Phase 5: Polish | 📋 Planned | - | - |
+| Phase               | Status            | Time Spent | Quality   |
+| ------------------- | ----------------- | ---------- | --------- |
+| Phase 1: Foundation | ✅ Complete       | 30 min     | Excellent |
+| Phase 2: Envio      | ✅ Complete       | 45 min     | Excellent |
+| Phase 3: Blockscout | 🚧 Ready to start | -          | -         |
+| Phase 4: Avail      | 📋 Planned        | -          | -         |
+| Phase 5: Polish     | 📋 Planned        | -          | -         |
 
 **Total Time So Far:** ~1.25 hours  
 **Remaining Time:** ~2.75 hours to complete all phases  
@@ -312,6 +338,7 @@ You just built a complete real-time multichain feed!
 **Goal:** Complete Blockscout integration (Phase 3)
 
 **Tasks:**
+
 1. Launch Autoscout instance (30 min)
 2. Install Blockscout SDK (5 min)
 3. Create ExplorerPane logic (45 min)

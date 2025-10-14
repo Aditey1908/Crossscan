@@ -1,11 +1,11 @@
 "use client";
 
-import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
-import { TxCard } from "./TxCard";
-import { TxItem } from "@/lib/types";
-import { fetchMultiChainTransactions, TransactionPoller } from "@/lib/envioClient";
 import { supportedChains } from "@/lib/chains";
+import { fetchMultiChainTransactions, TransactionPoller } from "@/lib/envioClient";
+import { TxItem } from "@/lib/types";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import { TxCard } from "./TxCard";
 
 export function TxFeed() {
   const { address, isConnected } = useAccount();
