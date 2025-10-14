@@ -1,14 +1,16 @@
 import { createConfig, http } from "wagmi";
 import { arbitrumSepolia, baseSepolia, optimismSepolia, polygonAmoy, sepolia } from "wagmi/chains";
-import { injected, walletConnect } from "wagmi/connectors";
+import { injected } from "wagmi/connectors";
 
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";
+// Note: WalletConnect temporarily disabled due to invalid Project ID
+// Get a valid Project ID from https://cloud.reown.com/ and add:
+// import { walletConnect } from "wagmi/connectors";
+// Then add walletConnect({ projectId }) to connectors array
 
 export const config = createConfig({
   chains: [sepolia, polygonAmoy, baseSepolia, arbitrumSepolia, optimismSepolia],
   connectors: [
-    injected(),
-    walletConnect({ projectId }),
+    injected(), // MetaMask, Coinbase Wallet, etc.
   ],
   transports: {
     [sepolia.id]: http(),

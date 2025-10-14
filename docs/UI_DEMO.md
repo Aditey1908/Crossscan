@@ -14,6 +14,7 @@
 ```
 
 **Features:**
+
 - **Chain Dropdown**: Select specific chain or "All Chains"
 - **Search Input**: Type any part of hash, from address, or to address
 - **Clear Search ✕**: Appears when search has text
@@ -33,6 +34,7 @@
 ```
 
 **Design:**
+
 - Blue background with glow effect
 - Shows filtered count vs total
 - Lists active filter types
@@ -52,6 +54,7 @@
 ```
 
 **Features:**
+
 - **Total Txs**: Count of all fetched transactions
 - **Success Rate**: Percentage of successful txs
 - **Chains**: Number of supported chains (4)
@@ -62,6 +65,7 @@
 ### 💳 Transaction Cards
 
 **Default state:**
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │ 🔷 Sepolia  ✓ Success  2 minutes ago               │
@@ -72,6 +76,7 @@
 ```
 
 **With search match (highlighted):**
+
 ```
 ┌═════════════════════════════════════════════════════┐ ← Yellow border
 ║ 🔷 Sepolia  ✓ Success  2 minutes ago              ║ ← Yellow glow
@@ -82,6 +87,7 @@
 ```
 
 **Features:**
+
 - Chain badge with emoji icon
 - Status badge (Success/Failed/Pending)
 - Time ago ("2 minutes ago")
@@ -128,7 +134,8 @@
 └─────────────────────────────────────────────────────┘
 ```
 
-**Key difference:** 
+**Key difference:**
+
 - Different icon (🔍 vs 📡)
 - Different message (explains filters are the issue)
 - **Clear Filters button** for quick reset
@@ -166,17 +173,20 @@
 ### Flow 4: Clearing Filters
 
 **Option A - Clear Search Only:**
+
 - Click ✕ button in search input
 - Search clears, chain filter remains
 - Banner updates to show chain filter only
 
 **Option B - Reset All:**
+
 - Click "🔄 Reset" button
 - Both chain and search clear
 - Banner disappears
 - All transactions visible
 
 **Option C - From Empty State:**
+
 - Filters active but no matches
 - Click "Clear Filters" in empty state
 - All filters reset
@@ -187,11 +197,13 @@
 ## Color Palette
 
 ### Status Colors
+
 - ✅ **Success**: Green (`text-green-500`, `bg-green-500/10`)
 - ❌ **Failed**: Red (`text-red-500`, `bg-red-500/10`)
 - ⏳ **Pending**: Yellow (`text-yellow-500`, `bg-yellow-500/10`)
 
 ### Chain Colors
+
 - 🔷 **Sepolia**: Blue (`text-blue-500`, `bg-blue-500/10`)
 - 🟣 **Polygon Amoy**: Purple
 - 🔵 **Base Sepolia**: Blue
@@ -199,6 +211,7 @@
 - 🔴 **Optimism**: Red
 
 ### Filter Colors
+
 - **Active Filter**: Blue (`bg-blue-500/10`, `border-blue-500/20`)
 - **Search Match**: Yellow (`border-yellow-500`, `bg-yellow-500/5`)
 - **Reset Button**: Gray (`bg-gray-800`, `hover:bg-gray-700`)
@@ -208,6 +221,7 @@
 ## Responsive Design
 
 ### Desktop (>1024px)
+
 ```
 ┌────────────────────────────────────────────────────┐
 │  [Filters + Stats - Full Width]                    │
@@ -219,6 +233,7 @@
 ```
 
 ### Tablet (768px - 1024px)
+
 ```
 ┌────────────────────────────────────────────────────┐
 │  [Filters (2 rows)]                                 │
@@ -233,6 +248,7 @@
 ```
 
 ### Mobile (<768px)
+
 ```
 ┌────────────────────────────┐
 │  [Filters - Stacked]       │
@@ -251,16 +267,19 @@
 ## Accessibility Features
 
 ### Keyboard Navigation
+
 - ✅ All buttons are `<button>` elements (keyboard accessible)
 - ✅ Tab order follows logical flow
 - ✅ Enter/Space activate buttons
 
 ### Screen Readers
+
 - ✅ All buttons have descriptive text
 - ✅ Icons paired with text labels
 - ✅ `title` attributes on hover buttons
 
 ### Visual Accessibility
+
 - ✅ High contrast text (white on dark)
 - ✅ Color not the only indicator (icons + text)
 - ✅ Minimum 16px font size
@@ -271,16 +290,19 @@
 ## Performance Metrics
 
 ### Loading States
+
 - **Initial Load**: Spinner with "Loading transactions..." message
 - **Polling**: Green pulse indicator in header
 - **Error**: Red banner with error message
 
 ### Update Frequency
+
 - **Polling**: Every 5 seconds
 - **Transaction Limit**: 100 most recent (prevents memory issues)
 - **Deduplication**: By transaction hash (prevents duplicates)
 
 ### Filter Performance
+
 - **Client-side**: No API calls when filtering
 - **Instant**: Filters apply immediately (< 16ms)
 - **Efficient**: O(n) complexity, negligible for 100 items
@@ -290,16 +312,19 @@
 ## Animation & Transitions
 
 ### Hover Effects
+
 - Buttons: Background color transition (200ms)
 - Transaction cards: Border color + background glow (200ms)
 - Copy buttons: Opacity transition (150ms)
 
 ### State Changes
+
 - Filter banner: Fade in/out (300ms)
 - Empty state: Fade in (400ms)
 - Search highlight: Border color transition (200ms)
 
 ### Live Indicators
+
 - Green dot: Pulse animation (2s loop)
 - Loading spinner: Rotate animation (1s loop)
 
@@ -308,6 +333,7 @@
 ## Testing Scenarios
 
 ### ✅ Happy Path
+
 1. Connect wallet
 2. Transactions load
 3. Apply chain filter → see filtered results
@@ -315,6 +341,7 @@
 5. Clear filters → see all transactions
 
 ### ✅ Edge Cases
+
 1. **No transactions** → Shows "No transactions found" with chain badges
 2. **Filters with no matches** → Shows "No matching transactions" with Clear button
 3. **Search with special chars** → Handles gracefully
@@ -322,6 +349,7 @@
 5. **Network error** → Shows error banner
 
 ### ✅ Performance
+
 1. **100+ transactions** → Filters remain instant
 2. **Rapid filter changes** → No lag or glitches
 3. **Multiple chains** → All load simultaneously
@@ -340,7 +368,6 @@ CrossScan now features a **polished, production-ready** filtering system with:
 ✅ **Smart empty states** that guide users  
 ✅ **Accessible** and keyboard-friendly  
 ✅ **Responsive** across all screen sizes  
-✅ **Performance** optimized for smooth experience  
+✅ **Performance** optimized for smooth experience
 
 **Ready for deployment** and **judge review**! 🚀
-
