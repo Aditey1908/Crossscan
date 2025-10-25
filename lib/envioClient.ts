@@ -39,6 +39,7 @@ export async function fetchTransactionsForAddress(
     // Query for transactions where address is sender or receiver
     const query: HyperSyncQuery = {
       from_block: fromBlock,
+      to_block: fromBlock + 10000, // Limit the range to avoid overwhelming the API
       transactions: [
         {
           from: [address.toLowerCase()],
@@ -77,7 +78,32 @@ export async function fetchTransactionsForAddress(
       }
     );
 
+    console.log('HyperSync response for', address, 'on chain', chainId, ':', {
+      status: response.status,
+      dataKeys: Object.keys(response.data?.data || {}),
+      blocksLength: response.data?.data?.blocks?.length,
+      transactionsLength: response.data?.data?.transactions?.length,
+      logsLength: response.data?.data?.logs?.length,
+    });
+
     const { blocks, transactions, logs } = response.data.data;
+
+    // Validate response structure
+    if (!response.data || !response.data.data) {
+      console.error('Invalid HyperSync response structure:', response.data);
+      return [];
+    }
+
+    // Validate response data
+    if (!blocks || !Array.isArray(blocks)) {
+      console.warn('No blocks data received from HyperSync for', address, 'on chain', chainId);
+      return [];
+    }
+
+    if (!transactions || !Array.isArray(transactions)) {
+      console.warn('No transactions data received from HyperSync for', address, 'on chain', chainId);
+      return [];
+    }
 
     // Create a map of block number to block data
     const blockMap = new Map<number, HyperSyncBlock>();
@@ -87,39 +113,38 @@ export async function fetchTransactionsForAddress(
 
     // Create a map of transaction hash to logs
     const logMap = new Map<string, HyperSyncLog[]>();
-    logs.forEach((log) => {
-      const txLogs = logMap.get(log.transaction_hash) || [];
-      txLogs.push(log);
-      logMap.set(log.transaction_hash, txLogs);
-    });
+    if (logs && Array.isArray(logs)) {
+      logs.forEach((log) => {
+        const txLogs = logMap.get(log.transaction_hash) || [];
+        txLogs.push(log);
+        logMap.set(log.transaction_hash, txLogs);
+      });
+    }
 
     // Transform transactions to TxItem format
     const txItems: TxItem[] = transactions
-      .slice(0, maxResults)
+      .slice(0, maxResults) // Limit the results
       .map((tx) => {
         const block = blockMap.get(tx.block_number);
         const txLogs = logMap.get(tx.hash) || [];
-
-        // Extract ERC20 transfers from logs
-        const tokenTransfers = extractTokenTransfers(txLogs);
-
-        // Determine status (default to success if not specified)
-        const status: "success" | "failed" = 
-          tx.status === 0 ? "failed" : "success";
 
         return {
           hash: tx.hash,
           chainId,
           blockNumber: tx.block_number,
-          timestamp: block?.timestamp || Date.now() / 1000,
+          blockHash: tx.block_hash,
+          transactionIndex: tx.transaction_index,
           from: tx.from,
-          to: tx.to,
-          valueNative: tx.value,
-          status,
-          gasUsed: tx.gas,
+          to: tx.to || null,
+          value: tx.value,
           gasPrice: tx.gas_price,
-          tokenTransfers,
+          gas: tx.gas,
+          timestamp: block?.timestamp || 0,
+          nonce: tx.nonce,
+          logs: txLogs,
           input: tx.input,
+          status: "success" as const, // HyperSync only returns successful transactions
+          valueNative: tx.value,
         };
       });
 
