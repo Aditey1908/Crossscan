@@ -126,11 +126,23 @@ export function TxCard({ tx, searchQuery = "" }: TxCardProps) {
           </div>
 
           {/* Value */}
-          {tx.valueNative && BigInt(tx.valueNative) > BigInt(0) && (
+          {tx.valueNative && (() => {
+            try {
+              return BigInt(tx.valueNative) > BigInt(0);
+            } catch {
+              return parseFloat(tx.valueNative) > 0;
+            }
+          })() && (
             <div className="mt-2 text-sm">
               <span className="text-gray-400">Value:</span>
               <span className="ml-2 text-white font-semibold">
-                {formatEther(tx.valueNative)} ETH
+                {(() => {
+                  try {
+                    return formatEther(tx.valueNative);
+                  } catch {
+                    return parseFloat(tx.valueNative).toFixed(6);
+                  }
+                })()} ETH
               </span>
             </div>
           )}

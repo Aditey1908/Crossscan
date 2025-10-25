@@ -1,4 +1,5 @@
 import axios from "axios";
+import { parseEther } from "viem";
 import type {
   HyperSyncBlock,
   HyperSyncLog,
@@ -6,9 +7,7 @@ import type {
   HyperSyncResponse,
   TokenTransfer,
   TxItem
-} from "./types";
-
-// HyperSync endpoint URLs
+} from "./types"; // HyperSync endpoint URLs
 const HYPERSYNC_ENDPOINTS: Record<number, string> = {
   11155111: process.env.NEXT_PUBLIC_HYPERSYNC_SEPOLIA || "https://sepolia.hypersync.xyz",
   84532: process.env.NEXT_PUBLIC_HYPERSYNC_BASE_SEPOLIA || "https://base-sepolia.hypersync.xyz",
@@ -34,7 +33,7 @@ function generateFallbackTransactions(chainId: number, address: string, maxResul
     from: index % 2 === 0 ? address : `0x${Math.random().toString(16).substr(2, 40)}`,
     to: index % 2 === 1 ? address : `0x${Math.random().toString(16).substr(2, 40)}`,
     status: "success" as const,
-    valueNative: (Math.random() * 0.1).toFixed(18),
+    valueNative: parseEther((Math.random() * 0.1).toFixed(6)).toString(),
     gasPrice: (Math.random() * 20000000000).toString(),
     tokenTransfers: [],
   }));
