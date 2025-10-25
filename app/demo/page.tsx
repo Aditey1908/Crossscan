@@ -1,16 +1,16 @@
 "use client";
 
 import { Navbar } from "@/components/Navbar";
-import { 
-  executeBridge, 
-  getBridgeQuote,
+import {
   DEMO_CHAINS,
   DEMO_TOKENS,
+  executeBridge,
+  getBridgeQuote,
   type BridgeOperation,
   type BridgeResult
 } from "@/lib/nexusClient";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
 export default function DemoPage() {

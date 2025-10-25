@@ -10,6 +10,7 @@
 ## 🎯 Integration Summary
 
 ### What We Built
+
 CrossScan integrated the Avail Nexus SDK to provide cross-chain bridge functionality within our multichain transaction explorer. Users can:
 
 1. **Bridge Test Tokens** - Transfer ETH/USDC/USDT between supported testnets
@@ -18,6 +19,7 @@ CrossScan integrated the Avail Nexus SDK to provide cross-chain bridge functiona
 4. **Multi-testnet Support** - Works across Ethereum, Base, Arbitrum, and Optimism testnets
 
 ### Integration Points
+
 - **Bridge Demo Page** (`/demo`) - Complete bridge interface
 - **Transaction Feed** - Bridge transactions appear in main feed
 - **Wallet Integration** - Works with wagmi/RainbowKit wallet connection
@@ -30,11 +32,13 @@ CrossScan integrated the Avail Nexus SDK to provide cross-chain bridge functiona
 ### ✅ **What Worked Well**
 
 #### 1. **Clear Package Structure**
+
 - `@avail-project/nexus` - Main SDK package
 - `@avail-project/nexus-widgets` - React components
 - Clear separation between core functionality and UI components
 
 #### 2. **Comprehensive TypeScript Support**
+
 ```typescript
 // Excellent type definitions for all interfaces
 interface BridgeParams {
@@ -49,21 +53,24 @@ interface BridgeAndExecuteParams {
   token: SUPPORTED_TOKENS;
   amount: number | string;
   recipient?: `0x${string}`;
-  execute?: Omit<ExecuteParams, 'toChainId'>;
+  execute?: Omit<ExecuteParams, "toChainId">;
 }
 ```
 
 #### 3. **Intent-Based API Design**
+
 - Simple bridge operations with complex backend handling
 - Built-in guardrails and slippage protection
 - Automatic gas estimation and fee calculation
 
 #### 4. **Testnet Support**
+
 - Works seamlessly across multiple testnets
 - Supports Ethereum Sepolia, Base Sepolia, Arbitrum Sepolia, Optimism Sepolia
 - No additional configuration required for testnet usage
 
 #### 5. **Error Handling**
+
 - Clear error messages for common issues
 - Graceful degradation when chains aren't supported
 - Helpful debugging information in development mode
@@ -71,6 +78,7 @@ interface BridgeAndExecuteParams {
 ### ⚠️ **Areas for Improvement**
 
 #### 1. **Initialization Complexity**
+
 ```typescript
 // Current: No clear way to check if SDK is initialized
 const nexusSDK = new NexusSDK({ network: "testnet" });
@@ -84,16 +92,19 @@ if (!nexusSDK.isInitialized()) {
 ```
 
 #### 2. **Provider Compatibility**
+
 - wagmi v2 provider needs type assertion for compatibility
 - Could benefit from explicit wagmi adapter or compatibility layer
 - Documentation on provider requirements would help
 
 #### 3. **Real-time Status Updates**
+
 - Bridge transactions don't automatically appear in the main transaction feed
 - Would benefit from webhook/event system for status updates
 - Need to manually poll for transaction completion
 
 #### 4. **Error Documentation**
+
 - Some error messages could be more developer-friendly
 - Would benefit from error code documentation
 - Suggestions for common troubleshooting scenarios
@@ -103,14 +114,16 @@ if (!nexusSDK.isInitialized()) {
 ## 📊 Performance & Reliability
 
 ### Network Performance
+
 - **Initialization:** ~2-3 seconds on testnet
 - **Bridge Simulation:** ~1-2 seconds
 - **Bridge Execution:** Variable (depends on network congestion)
 - **Overall Responsiveness:** Good for development/testing
 
 ### Reliability
+
 - **Testnet Stability:** Generally reliable during testing
-- **Error Recovery:** Good error handling for network issues  
+- **Error Recovery:** Good error handling for network issues
 - **Transaction Consistency:** Bridge operations complete successfully
 - **Documentation Match:** SDK behavior matches documentation well
 
@@ -119,6 +132,7 @@ if (!nexusSDK.isInitialized()) {
 ## 🛠️ Development Experience
 
 ### Setup Process
+
 ```bash
 # Installation was straightforward
 npm install @avail-project/nexus @avail-project/nexus-widgets
@@ -128,23 +142,25 @@ import { NexusSDK, BridgeParams } from "@avail-project/nexus";
 ```
 
 ### Integration Code Sample
+
 ```typescript
 // Clean, intuitive API
-const nexusSDK = new NexusSDK({ 
-  network: "testnet", 
-  debug: true 
+const nexusSDK = new NexusSDK({
+  network: "testnet",
+  debug: true,
 });
 
 await nexusSDK.initialize(walletProvider);
 
 const bridgeResult = await nexusSDK.bridge({
   token: "ETH",
-  amount: "0.001", 
-  chainId: SUPPORTED_CHAINS.BASE_SEPOLIA
+  amount: "0.001",
+  chainId: SUPPORTED_CHAINS.BASE_SEPOLIA,
 });
 ```
 
 ### Developer Tools
+
 - **TypeScript Support:** ⭐⭐⭐⭐⭐ Excellent
 - **Documentation:** ⭐⭐⭐⭐⚪ Good, could be more comprehensive
 - **Error Messages:** ⭐⭐⭐⚪⚪ Room for improvement
@@ -155,12 +171,14 @@ const bridgeResult = await nexusSDK.bridge({
 ## 🎨 UI/UX Integration
 
 ### Widget Components
+
 ```typescript
 // @avail-project/nexus-widgets provides React components
 // Integration was straightforward for basic use cases
 ```
 
 ### Custom Integration
+
 - Built custom bridge form using core SDK
 - Good flexibility for custom UI/UX
 - Easy to integrate with existing design systems
@@ -171,6 +189,7 @@ const bridgeResult = await nexusSDK.bridge({
 ## 🔍 Specific Feedback
 
 ### What We Loved
+
 1. **Simple Bridge API** - One function call for complex cross-chain operations
 2. **TypeScript First** - Excellent type safety throughout
 3. **Testnet Ready** - Works immediately on multiple testnets
@@ -180,29 +199,32 @@ const bridgeResult = await nexusSDK.bridge({
 ### Suggestions for Improvement
 
 #### 1. **Enhanced Event System**
+
 ```typescript
 // Current: Manual polling required
 const result = await nexusSDK.bridge(params);
 // Need to manually check transaction status
 
 // Suggestion: Event-driven updates
-nexusSDK.on('bridgeUpdate', (event) => {
-  console.log('Bridge status:', event.status);
-  console.log('Transaction hash:', event.transactionHash);
+nexusSDK.on("bridgeUpdate", (event) => {
+  console.log("Bridge status:", event.status);
+  console.log("Transaction hash:", event.transactionHash);
 });
 ```
 
 #### 2. **Wagmi Integration Helper**
+
 ```typescript
 // Suggestion: Dedicated wagmi adapter
 import { createNexusWagmiConnector } from "@avail-project/nexus-wagmi";
 
 const connector = createNexusWagmiConnector({
-  network: "testnet"
+  network: "testnet",
 });
 ```
 
 #### 3. **Enhanced Error Handling**
+
 ```typescript
 // Current: Generic error handling
 try {
@@ -222,6 +244,7 @@ catch (error) {
 ```
 
 #### 4. **Development Tools**
+
 - **Bridge Simulator** - Test bridge operations without actual tokens
 - **Network Status Monitor** - Real-time status of supported chains
 - **Debug Dashboard** - Visualize bridge operations and status
@@ -231,12 +254,14 @@ catch (error) {
 ## 📈 Impact on Our Project
 
 ### Positive Impact
+
 1. **Completed Avail Prize Requirements** - Successfully integrated bridge functionality
 2. **Enhanced User Experience** - Users can bridge directly from explorer
 3. **Technical Learning** - Gained experience with intent-based cross-chain UX
 4. **Future Features** - Foundation for advanced cross-chain features
 
 ### Integration Stats
+
 - **Lines of Code:** ~200 lines for complete integration
 - **Development Time:** ~3 hours including learning curve
 - **Build Impact:** +301 npm packages, reasonable bundle size increase
@@ -247,6 +272,7 @@ catch (error) {
 ## 🏆 Prize Deliverables Completed
 
 ### ✅ Required Deliverables
+
 - [x] **Nexus SDK Installation** - Successfully installed and configured
 - [x] **Bridge Demo Implementation** - Working bridge interface in `/demo`
 - [x] **AVAIL_FEEDBACK.md** - This comprehensive feedback document
@@ -254,7 +280,8 @@ catch (error) {
 - [x] **Integration with Main App** - Bridge transactions visible in main feed
 
 ### 📸 Screenshots
-*[Screenshots would be included in final submission]*
+
+_[Screenshots would be included in final submission]_
 
 1. **Bridge Interface** - Clean, intuitive bridge form
 2. **Successful Bridge** - Transaction confirmation with hash
@@ -266,12 +293,14 @@ catch (error) {
 ## 🎯 Recommendations for Other Developers
 
 ### For Hackathon Projects
+
 1. **Start Early** - Allow 2-3 hours for complete integration
 2. **Use Testnet First** - Testnet support is excellent for rapid prototyping
 3. **Check wagmi Compatibility** - May need type assertions for provider compatibility
 4. **Implement Error Handling** - Network issues are common in testnet environments
 
 ### For Production Projects
+
 1. **Monitor Bridge Status** - Implement custom polling for transaction updates
 2. **User Education** - Bridge operations may take time, inform users accordingly
 3. **Fallback Handling** - Plan for scenarios where bridge operations fail
@@ -287,6 +316,7 @@ catch (error) {
 **Email:** [Email if provided]
 
 ### Availability for Follow-up
+
 - Available for additional feedback sessions
 - Willing to participate in SDK improvement discussions
 - Can provide more detailed technical feedback if needed
@@ -306,4 +336,4 @@ The SDK successfully enabled our multichain explorer to offer bridge functionali
 
 ---
 
-*This feedback document was generated as part of CrossScan's submission for ETHOnline 2025, targeting the Avail Developer Feedback prize track.*
+_This feedback document was generated as part of CrossScan's submission for ETHOnline 2025, targeting the Avail Developer Feedback prize track._

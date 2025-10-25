@@ -5,4 +5,4 @@ import * as nexusWidgets from "@avail-project/nexus-widgets";
 console.log("Nexus SDK exports:", Object.keys(nexus));
 console.log("Nexus Widgets exports:", Object.keys(nexusWidgets));
 
-export {};
+export { };
