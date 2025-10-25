@@ -176,10 +176,6 @@ export function TxFeed() {
             key={`${tx.hash}-${tx.chainId}`} 
             tx={tx}
             searchQuery={searchQuery}
-            onClick={() => {
-              // TODO: Open explorer pane with tx details
-              console.log("Selected tx:", tx);
-            }}
           />
         ))}
       </div>

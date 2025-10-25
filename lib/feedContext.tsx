@@ -13,6 +13,8 @@ interface FeedContextType {
   filteredTransactions: TxItem[];
   hasActiveFilters: boolean;
   clearFilters: () => void;
+  selectedTransaction: TxItem | null;
+  setSelectedTransaction: (tx: TxItem | null) => void;
 }
 
 const FeedContext = createContext<FeedContextType | undefined>(undefined);
@@ -21,6 +23,7 @@ export function FeedProvider({ children }: { children: ReactNode }) {
   const [selectedChain, setSelectedChain] = useState<number | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [transactions, setTransactions] = useState<TxItem[]>([]);
+  const [selectedTransaction, setSelectedTransaction] = useState<TxItem | null>(null);
 
   // Filter transactions based on selected chain and search query
   const filteredTransactions = transactions.filter((tx) => {
@@ -44,6 +47,7 @@ export function FeedProvider({ children }: { children: ReactNode }) {
   const clearFilters = () => {
     setSelectedChain("all");
     setSearchQuery("");
+    setSelectedTransaction(null);
   };
 
   return (
@@ -58,6 +62,8 @@ export function FeedProvider({ children }: { children: ReactNode }) {
         filteredTransactions,
         hasActiveFilters,
         clearFilters,
+        selectedTransaction,
+        setSelectedTransaction,
       }}
     >
       {children}

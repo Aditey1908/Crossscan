@@ -1,6 +1,7 @@
 "use client";
 
 import { chainColors, chainIcons } from "@/lib/chains";
+import { useFeed } from "@/lib/feedContext";
 import { TxItem } from "@/lib/types";
 import { copyToClipboard, formatAddress, formatEther, formatHash, getChainName } from "@/lib/utils";
 import { formatDistance } from "date-fns";
@@ -9,12 +10,12 @@ import { useState } from "react";
 
 interface TxCardProps {
   tx: TxItem;
-  onClick?: () => void;
   searchQuery?: string;
 }
 
-export function TxCard({ tx, onClick, searchQuery = "" }: TxCardProps) {
+export function TxCard({ tx, searchQuery = "" }: TxCardProps) {
   const [copied, setCopied] = useState(false);
+  const { setSelectedTransaction, selectedTransaction } = useFeed();
 
   const handleCopy = async (e: React.MouseEvent, text: string) => {
     e.stopPropagation();
@@ -23,12 +24,19 @@ export function TxCard({ tx, onClick, searchQuery = "" }: TxCardProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleTransactionClick = () => {
+    setSelectedTransaction(tx);
+  };
+
   // Check if this transaction matches the search query
   const isSearchMatch = searchQuery && (
     tx.hash.toLowerCase().includes(searchQuery.toLowerCase()) ||
     tx.from.toLowerCase().includes(searchQuery.toLowerCase()) ||
     tx.to?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Check if this transaction is currently selected
+  const isSelected = selectedTransaction?.hash === tx.hash;
 
   const timeAgo = formatDistance(new Date(tx.timestamp * 1000), new Date(), {
     addSuffix: true,
@@ -39,11 +47,13 @@ export function TxCard({ tx, onClick, searchQuery = "" }: TxCardProps) {
 
   return (
     <div
-      onClick={onClick}
+      onClick={handleTransactionClick}
       className={`p-4 hover:bg-gray-800/50 transition-all cursor-pointer border-l-2 ${
-        isSearchMatch 
-          ? 'border-yellow-500 bg-yellow-500/5' 
-          : 'border-transparent'
+        isSelected
+          ? 'border-blue-500 bg-blue-500/10'
+          : isSearchMatch 
+            ? 'border-yellow-500 bg-yellow-500/5' 
+            : 'border-transparent'
       } hover:border-blue-500`}
     >
       <div className="flex items-start justify-between gap-4">
