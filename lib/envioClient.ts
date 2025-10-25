@@ -1,11 +1,11 @@
 import axios from "axios";
 import type {
-    HyperSyncBlock,
-    HyperSyncLog,
-    HyperSyncQuery,
-    HyperSyncResponse,
-    TokenTransfer,
-    TxItem
+  HyperSyncBlock,
+  HyperSyncLog,
+  HyperSyncQuery,
+  HyperSyncResponse,
+  TokenTransfer,
+  TxItem
 } from "./types";
 
 // HyperSync endpoint URLs
