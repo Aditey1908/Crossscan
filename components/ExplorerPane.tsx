@@ -50,7 +50,7 @@ export function ExplorerPane() {
       </div>
 
       {/* Content */}
-      <div className="h-[600px] relative">
+      <div className="h-[600px] overflow-y-auto relative">
         {!selectedTransaction ? (
           // Empty state
           <div className="p-12 text-center">
@@ -64,7 +64,7 @@ export function ExplorerPane() {
           </div>
         ) : getBlockscoutUrl(selectedTransaction.hash, selectedTransaction.chainId) ? (
           // Rich transaction details (Blockscout integration demo)
-          <div className="p-6 space-y-6">
+          <div className="p-6 space-y-6 min-h-full">
             <div className="text-center mb-6">
               <div className="text-4xl mb-3">⚡</div>
               <h3 className="text-lg font-semibold text-white mb-2">Transaction Details</h3>
