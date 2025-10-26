@@ -2,12 +2,12 @@
 
 import { Navbar } from "@/components/Navbar";
 import {
-  DEMO_CHAINS,
-  DEMO_TOKENS,
-  executeBridge,
-  getBridgeQuote,
-  type BridgeOperation,
-  type BridgeResult
+    DEMO_CHAINS,
+    DEMO_TOKENS,
+    executeBridge,
+    getBridgeQuote,
+    type BridgeOperation,
+    type BridgeResult
 } from "@/lib/nexusClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -83,30 +83,30 @@ export default function DemoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       <Navbar />
       
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+          <div className="bg-gray-900 border border-gray-800 rounded-xl shadow-2xl p-8 mb-8">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">CrossScan Bridge Demo</h1>
-                <p className="text-gray-600 mt-2">
+                <h1 className="text-3xl font-bold text-white">CrossScan Bridge Demo</h1>
+                <p className="text-gray-400 mt-2">
                   Avail Nexus SDK Integration for ETHOnline 2025
                 </p>
               </div>
               <Link 
                 href="/"
-                className="text-blue-600 hover:text-blue-800 underline"
+                className="text-blue-400 hover:text-blue-300 underline"
               >
                 ← Back to Explorer
               </Link>
             </div>
             
             {!isConnected && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                <p className="text-yellow-800">
+              <div className="bg-yellow-900/50 border border-yellow-600 rounded-lg p-4 mb-6">
+                <p className="text-yellow-200">
                   Please connect your wallet to use the bridge functionality.
                 </p>
               </div>
@@ -115,17 +115,17 @@ export default function DemoPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Bridge Form */}
               <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900">Bridge Assets</h2>
+                <h2 className="text-xl font-semibold text-white">Bridge Assets</h2>
                 
                 {/* Token Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     Token
                   </label>
                   <select
                     value={selectedToken}
                     onChange={(e) => setSelectedToken(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {DEMO_TOKENS.map((token) => (
                       <option key={token.symbol} value={token.symbol}>
@@ -137,7 +137,7 @@ export default function DemoPage() {
 
                 {/* Amount Input */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     Amount
                   </label>
                   <input
@@ -146,19 +146,19 @@ export default function DemoPage() {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.001"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 {/* Source Chain */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     From Chain
                   </label>
                   <select
                     value={sourceChain}
                     onChange={(e) => setSourceChain(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {DEMO_CHAINS.map((chain) => (
                       <option key={chain.id} value={chain.id}>
@@ -170,13 +170,13 @@ export default function DemoPage() {
 
                 {/* Destination Chain */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     To Chain
                   </label>
                   <select
                     value={destinationChain}
                     onChange={(e) => setDestinationChain(Number(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {DEMO_CHAINS.map((chain) => (
                       <option key={chain.id} value={chain.id}>
@@ -188,20 +188,20 @@ export default function DemoPage() {
 
                 {/* Quote Display */}
                 {quote && (
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h3 className="text-sm font-medium text-gray-700 mb-2">Bridge Quote</h3>
+                  <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+                    <h3 className="text-sm font-medium text-gray-300 mb-2">Bridge Quote</h3>
                     <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-gray-400">
                         <span>Estimated Time:</span>
-                        <span>{quote.estimatedTime}</span>
+                        <span className="text-white">{quote.estimatedTime}</span>
                       </div>
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-gray-400">
                         <span>Fee:</span>
-                        <span>{quote.fee} {selectedToken}</span>
+                        <span className="text-white">{quote.fee} {selectedToken}</span>
                       </div>
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-gray-400">
                         <span>Rate:</span>
-                        <span>{quote.rate}</span>
+                        <span className="text-white">{quote.rate}</span>
                       </div>
                     </div>
                   </div>
@@ -211,7 +211,7 @@ export default function DemoPage() {
                 <button
                   onClick={handleBridge}
                   disabled={!isConnected || loading || !amount}
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
+                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed font-medium transition-colors"
                 >
                   {loading ? "Processing..." : "Execute Bridge"}
                 </button>
@@ -219,31 +219,31 @@ export default function DemoPage() {
 
               {/* Results Panel */}
               <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900">Bridge Status</h2>
+                <h2 className="text-xl font-semibold text-white">Bridge Status</h2>
                 
                 {bridgeResult && (
-                  <div className={`rounded-lg p-6 ${
+                  <div className={`rounded-lg p-6 border ${
                     bridgeResult.success 
-                      ? 'bg-green-50 border border-green-200' 
-                      : 'bg-red-50 border border-red-200'
+                      ? 'bg-green-900/30 border-green-600' 
+                      : 'bg-red-900/30 border-red-600'
                   }`}>
                     <div className="flex items-center mb-4">
                       <div className={`w-3 h-3 rounded-full mr-3 ${
                         bridgeResult.success ? 'bg-green-500' : 'bg-red-500'
                       }`}></div>
                       <h3 className={`font-medium ${
-                        bridgeResult.success ? 'text-green-800' : 'text-red-800'
+                        bridgeResult.success ? 'text-green-400' : 'text-red-400'
                       }`}>
                         {bridgeResult.success ? 'Bridge Successful' : 'Bridge Failed'}
                       </h3>
                     </div>
                     
                     {bridgeResult.success ? (
-                      <div className="space-y-2 text-sm text-green-700">
+                      <div className="space-y-2 text-sm text-green-300">
                         {bridgeResult.hash && (
                           <div>
                             <span className="font-medium">Transaction Hash:</span>
-                            <div className="font-mono bg-green-100 p-2 rounded mt-1 break-all">
+                            <div className="font-mono bg-green-900/50 p-2 rounded mt-1 break-all text-green-200">
                               {bridgeResult.hash}
                             </div>
                           </div>
@@ -253,7 +253,7 @@ export default function DemoPage() {
                         )}
                       </div>
                     ) : (
-                      <div className="text-sm text-red-700">
+                      <div className="text-sm text-red-300">
                         <span className="font-medium">Error:</span> {bridgeResult.error}
                       </div>
                     )}
@@ -261,9 +261,9 @@ export default function DemoPage() {
                 )}
 
                 {/* Demo Information */}
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                  <h3 className="font-medium text-blue-800 mb-3">Demo Information</h3>
-                  <div className="text-sm text-blue-700 space-y-2">
+                <div className="bg-blue-900/30 border border-blue-600 rounded-lg p-6">
+                  <h3 className="font-medium text-blue-400 mb-3">Demo Information</h3>
+                  <div className="text-sm text-blue-300 space-y-2">
                     <p>
                       This is a demonstration of the Avail Nexus SDK integration for ETHOnline 2025.
                     </p>
@@ -278,9 +278,9 @@ export default function DemoPage() {
                 </div>
 
                 {/* Features List */}
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="font-medium text-gray-800 mb-3">Integration Features</h3>
-                  <ul className="text-sm text-gray-600 space-y-1">
+                <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
+                  <h3 className="font-medium text-gray-300 mb-3">Integration Features</h3>
+                  <ul className="text-sm text-gray-400 space-y-1">
                     <li>• Cross-chain asset bridging</li>
                     <li>• Real-time bridge quotes</li>
                     <li>• Transaction status tracking</li>
@@ -293,6 +293,19 @@ export default function DemoPage() {
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <footer className="border-t border-gray-800 mt-12 py-8">
+        <div className="container mx-auto px-4 text-center text-sm text-gray-400">
+          <p className="mb-2">
+            Powered by{" "}
+            <span className="text-blue-400 font-semibold">Envio</span> •{" "}
+            <span className="text-purple-400 font-semibold">Blockscout</span> •{" "}
+            <span className="text-green-400 font-semibold">Avail</span>
+          </p>
+          <p>Built for ETHOnline 2025 🚀</p>
+        </div>
+      </footer>
     </div>
   );
 }
