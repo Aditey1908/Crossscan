@@ -10,9 +10,9 @@ export function ExplorerPane() {
   // Get Blockscout URL from environment
   const blockscoutBaseUrl = process.env.NEXT_PUBLIC_BLOCKSCOUT_BASE_URL;
 
-  // Generate Blockscout transaction URL
+  // Generate Blockscout transaction URL using real explorer instances
   const getBlockscoutUrl = (txHash: string, chainId: number) => {
-    // For now, use public Blockscout instances
+    // Real Blockscout explorer instances for each testnet
     const blockscoutUrls: Record<number, string> = {
       11155111: "https://sepolia.blockscout.com", // Sepolia
       84532: "https://base-sepolia.blockscout.com", // Base Sepolia
@@ -21,6 +21,10 @@ export function ExplorerPane() {
     };
 
     const baseUrl = blockscoutBaseUrl || blockscoutUrls[chainId];
+    if (baseUrl) {
+      console.log(`🔗 Blockscout Integration: Generating explorer URL for chain ${chainId}`);
+      console.log(`📊 URL: ${baseUrl}/tx/${txHash}`);
+    }
     return baseUrl ? `${baseUrl}/tx/${txHash}` : null;
   };
 

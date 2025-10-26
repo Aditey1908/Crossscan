@@ -1,7 +1,7 @@
 "use client";
 
 import { supportedChains } from "@/lib/chains";
-import { TransactionPoller, fetchMultiChainTransactions } from "@/lib/envioClient";
+import { TransactionPoller, fetchMultiChainTransactions, fetchRecentTransactions } from "@/lib/envioClient";
 import { useFeed } from "@/lib/feedContext";
 import { TxItem } from "@/lib/types";
 import { useEffect, useState } from "react";
@@ -16,12 +16,6 @@ export function TxFeed() {
 
   // Initialize feed when address changes
   useEffect(() => {
-    if (!address) {
-      setTransactions([]);
-      setError(null);
-      return;
-    }
-
     let poller: TransactionPoller | null = null;
 
     const initializeFeed = async () => {
@@ -29,29 +23,44 @@ export function TxFeed() {
       setError(null);
 
       try {
-        // Fetch initial transactions (last 20 per chain)
         const chainIds = supportedChains.map((c) => c.id);
-        const initialTxs = await fetchMultiChainTransactions(address, chainIds);
-        setTransactions(initialTxs);
+        
+        if (address) {
+          // Fetch user-specific transactions
+          const initialTxs = await fetchMultiChainTransactions(address, chainIds);
+          setTransactions(initialTxs);
 
-        // Start polling for new transactions
-        poller = new TransactionPoller(
-          address,
-          chainIds,
-          (newTxs: TxItem[]) => {
-            setTransactions((prev) => {
-              // Merge new transactions with existing ones
-              const txMap = new Map(prev.map((tx) => [tx.hash, tx]));
-              newTxs.forEach((tx) => txMap.set(tx.hash, tx));
-              // Keep only last 100 transactions
-              return Array.from(txMap.values())
-                .sort((a, b) => b.timestamp - a.timestamp)
-                .slice(0, 100);
-            });
-          }
-        );
-
-        poller.start();
+          // Start polling for new transactions
+          poller = new TransactionPoller(
+            address,
+            chainIds,
+            (newTxs: TxItem[]) => {
+              setTransactions((prev) => {
+                const combined = [...newTxs, ...prev];
+                const unique = combined.filter(
+                  (tx, index, self) => index === self.findIndex((t) => t.hash === tx.hash)
+                );
+                return unique.slice(0, 100); // Keep last 100 transactions
+              });
+            },
+            5000 // Poll every 5 seconds
+          );
+          poller.start();
+        } else {
+          // Show recent transactions from all chains for demo
+          console.log("🔍 No wallet connected - showing recent transactions for demo");
+          const recentTxsPromises = chainIds.map(chainId => 
+            fetchRecentTransactions(chainId, 3) // 3 transactions per chain
+          );
+          
+          const recentTxsArrays = await Promise.all(recentTxsPromises);
+          const allRecentTxs = recentTxsArrays.flat();
+          
+          // Sort by block number (most recent first)
+          allRecentTxs.sort((a, b) => b.blockNumber - a.blockNumber);
+          
+          setTransactions(allRecentTxs.slice(0, 15)); // Show top 15 recent transactions
+        }
       } catch (err) {
         console.error("Failed to initialize feed:", err);
         setError("Failed to load transactions");
@@ -70,16 +79,20 @@ export function TxFeed() {
     };
   }, [address, setTransactions]);
 
-  if (!isConnected) {
+  // Show transactions even when not connected (for demo)
+  if (transactions.length === 0 && !isLoading) {
     return (
       <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-12">
         <div className="text-center">
           <div className="text-6xl mb-4">🔌</div>
           <h3 className="text-xl font-semibold text-white mb-2">
-            Connect Your Wallet
+            {isConnected ? "No Transactions Found" : "Connect Wallet or View Recent Activity"}
           </h3>
           <p className="text-gray-400">
-            Connect your wallet to see real-time transaction activity across chains
+            {isConnected 
+              ? "No transactions found for your address. Try making a transaction on a testnet."
+              : "Connect your wallet to see your transactions, or view recent network activity below."
+            }
           </p>
         </div>
       </div>

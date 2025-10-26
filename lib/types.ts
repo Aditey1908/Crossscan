@@ -86,8 +86,8 @@ export interface HyperSyncResponse {
 }
 
 export interface HyperSyncQuery {
-  from_block: number;
-  to_block?: number;
+  from_block: number | "latest";
+  to_block?: number | "latest";
   logs?: Array<{
     address?: string[];
     topics?: Array<string[] | null>;
@@ -101,4 +101,5 @@ export interface HyperSyncQuery {
     transaction: string[];
     log: string[];
   };
+  max_num_transactions?: number;
 }
