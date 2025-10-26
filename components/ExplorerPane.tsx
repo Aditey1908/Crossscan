@@ -3,10 +3,8 @@
 import { useFeed } from "@/lib/feedContext";
 import { getChainName } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
-import { useState } from "react";
 
 export function ExplorerPane() {
-  const [isLoading, setIsLoading] = useState(false);
   const { selectedTransaction } = useFeed();
 
   // Get Blockscout URL from environment
@@ -65,22 +63,106 @@ export function ExplorerPane() {
             </p>
           </div>
         ) : getBlockscoutUrl(selectedTransaction.hash, selectedTransaction.chainId) ? (
-          // Blockscout iframe
-          <div className="relative h-full">
-            {isLoading && (
-              <div className="absolute inset-0 bg-gray-900/80 flex items-center justify-center z-10">
-                <div className="text-center">
-                  <div className="animate-spin text-3xl mb-2">⚡</div>
-                  <p className="text-gray-400">Loading transaction details...</p>
+          // Rich transaction details (Blockscout integration demo)
+          <div className="p-6 space-y-6">
+            <div className="text-center mb-6">
+              <div className="text-4xl mb-3">⚡</div>
+              <h3 className="text-lg font-semibold text-white mb-2">Transaction Details</h3>
+              <p className="text-sm text-gray-400">Powered by Blockscout integration</p>
+            </div>
+
+            {/* Transaction Info Cards */}
+            <div className="space-y-4">
+              {/* Hash */}
+              <div className="bg-gray-800/50 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-gray-300">Transaction Hash</span>
+                  <span className={`px-2 py-1 rounded text-xs ${
+                    selectedTransaction.status === 'success' 
+                      ? 'bg-green-900/50 text-green-400' 
+                      : selectedTransaction.status === 'failed'
+                      ? 'bg-red-900/50 text-red-400'
+                      : 'bg-yellow-900/50 text-yellow-400'
+                  }`}>
+                    {selectedTransaction.status?.toUpperCase() || 'PENDING'}
+                  </span>
+                </div>
+                <p className="text-xs font-mono text-gray-400 break-all">
+                  {selectedTransaction.hash}
+                </p>
+              </div>
+
+              {/* Block & Network */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-800/50 rounded-lg p-4">
+                  <span className="text-sm font-medium text-gray-300 block mb-1">Block</span>
+                  <span className="text-lg font-semibold text-white">#{selectedTransaction.blockNumber}</span>
+                </div>
+                <div className="bg-gray-800/50 rounded-lg p-4">
+                  <span className="text-sm font-medium text-gray-300 block mb-1">Network</span>
+                  <span className="text-lg font-semibold text-white">{getChainName(selectedTransaction.chainId)}</span>
                 </div>
               </div>
-            )}
-            <iframe
-              src={getBlockscoutUrl(selectedTransaction.hash, selectedTransaction.chainId)!}
-              className="w-full h-full border-none"
-              onLoad={() => setIsLoading(false)}
-              title="Blockscout Transaction Details"
-            />
+
+              {/* From/To */}
+              <div className="bg-gray-800/50 rounded-lg p-4">
+                <div className="space-y-3">
+                  <div>
+                    <span className="text-sm font-medium text-gray-300 block mb-1">From</span>
+                    <span className="text-sm font-mono text-blue-400">{selectedTransaction.from}</span>
+                  </div>
+                  <div className="text-center text-gray-500">↓</div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-300 block mb-1">To</span>
+                    <span className="text-sm font-mono text-green-400">{selectedTransaction.to}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Value */}
+              <div className="bg-gray-800/50 rounded-lg p-4">
+                <span className="text-sm font-medium text-gray-300 block mb-1">Value</span>
+                <span className="text-lg font-semibold text-white">
+                  {selectedTransaction.valueNative ? 
+                    `${(Number(selectedTransaction.valueNative) / 1e18).toFixed(6)} ETH` : 
+                    '0 ETH'
+                  }
+                </span>
+              </div>
+
+              {/* Token Transfers */}
+              {selectedTransaction.tokenTransfers && selectedTransaction.tokenTransfers.length > 0 && (
+                <div className="bg-gray-800/50 rounded-lg p-4">
+                  <span className="text-sm font-medium text-gray-300 block mb-3">Token Transfers</span>
+                  <div className="space-y-2">
+                    {selectedTransaction.tokenTransfers.slice(0, 3).map((transfer, index) => (
+                      <div key={index} className="flex items-center justify-between p-2 bg-gray-700/50 rounded">
+                        <span className="text-sm text-white">{transfer.tokenSymbol || 'Unknown Token'}</span>
+                        <span className="text-sm text-gray-400">
+                          {transfer.amount && transfer.decimals 
+                            ? (Number(transfer.amount) / Math.pow(10, transfer.decimals)).toFixed(4)
+                            : transfer.amount || '0'
+                          }
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* External Link */}
+              <div className="text-center pt-4">
+                <a
+                  href={getBlockscoutUrl(selectedTransaction.hash, selectedTransaction.chainId)!}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  View in Blockscout Explorer
+                </a>
+              </div>
+            </div>
           </div>
         ) : (
           // Fallback for unsupported chains or missing URLs
